@@ -425,7 +425,7 @@ def make_wmts_rest_request_parser(url_converter, fi_url_converter):
     fi_req_re = fi_url_converter.regexp()
 
     def wmts_request(req):
-        if req.path.endswith(RESTFUL_CAPABILITIES_PATH):
+        if req.path == '/wmts' + (RESTFUL_CAPABILITIES_PATH):
             return WMTS100RestCapabilitiesRequest(req)
 
         match = tile_req_re.search(req.path)
