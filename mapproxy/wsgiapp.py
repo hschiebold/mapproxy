@@ -132,6 +132,7 @@ class MapProxyApp(object):
         for service in services:
             for name in service.names:
                 self.handlers[name] = service
+        self.kvp_services = ['ows','service','wms']        
 
     def __call__(self, environ, start_response):
         resp = None
@@ -151,7 +152,7 @@ class MapProxyApp(object):
             match = self.handler_path_re.match(req.path)
             if match:
                 handler_name = match.group(1)
-                if handler_name in self.handlers:
+                if (handler_name in self.kvp_services and req.path == "/"+handler_name) or (handler_name not in self.kvp_services and handler_name in self.handlers):
                     try:
                         resp = self.handlers[handler_name].handle(req)
                     except Exception:
